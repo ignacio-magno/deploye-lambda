@@ -11,7 +11,6 @@ if is_in_windows:
     print('is in windows')
     sys.exit()
 
-
 def main():
     print("hello")
 
@@ -31,9 +30,5 @@ def main():
             id_resource = deploy_path()
             deploy_method(id_resource)
             deploy_integration(id_resource)
-
-
-
-
 
 main()

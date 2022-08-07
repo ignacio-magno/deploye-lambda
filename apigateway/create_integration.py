@@ -1,4 +1,5 @@
-from . import client, api_id, method, account_id, function_name, path
+import uuid
+from . import client, api_id, method, account_id, arn_function, path
 import boto3
 
 # =========================================================== Create integration ===========================================================
@@ -22,7 +23,7 @@ def create_integration(id_resource):
         # create integration in resource with integration type aws proxy and lambda function
         response = client.put_integration(restApiId=api_id, resourceId=id_resource, httpMethod=method, type="AWS_PROXY", 
             integrationHttpMethod="POST", 
-            uri = "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/"+function_name+"/invocations",
+            uri = "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/"+arn_function+"/invocations",
         )
         print(response)
         print("\n")
@@ -33,7 +34,7 @@ def create_integration(id_resource):
             # update integration in resource with integration type aws proxy and lambda function
             response = client.update_integration(restApiId=api_id, resourceId=id_resource, httpMethod=method, type="AWS_PROXY",
                 integrationHttpMethod="POST",
-                uri = "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/"+function_name+"/invocations",
+                uri = "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/"+arn_function+"/invocations",
             )
 
             print(response)
@@ -50,8 +51,8 @@ def create_integration(id_resource):
     def put_policy_statement(arn):
         client = boto3.client('lambda')
         response = client.add_permission(
-            FunctionName=function_name,
-            StatementId="001",
+            FunctionName=arn_function,
+            StatementId=uuid.uuid4().hex,
             Action="lambda:InvokeFunction",
             Principal="apigateway.amazonaws.com",
             SourceArn=arn

@@ -5,7 +5,7 @@ path=/home/ignacio/Desktop/github.com/deploye-lambda/
 source $path./env/bin/activate
 
 # call deploy.py
-python3 $path/deploy.py
+python3 $path/main.py
 
 # end virtual env
 deactivate

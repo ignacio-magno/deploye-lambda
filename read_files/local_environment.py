@@ -14,16 +14,13 @@ def get_env_file():
         return data
 
 # return function wich recieve key and get value of data
-def get_variables_from_local_environment():
+def get_variables_from_local_environment(key):
 
     if file_exists():
 
         data = get_env_file()
 
-        def get_val_of_data (key):
-            return data[key]
-
-        return get_val_of_data
+        return data[key]
     else:
         print('file local environment not exist')
         sys.exit()

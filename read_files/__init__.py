@@ -6,11 +6,10 @@ path_local_environment = 'environment.json'
 
 # find file env.json in current folder, if no exist then search in parent folder
 def find_env_json(path="env.json"):
+    print(path)
     if not os.path.exists(path):
-        find_env_json("../"+path)
+        return find_env_json("../"+path)
     else:
         return path
 
-
-path_global_environment = find_env_json
-
+path_global_environment = find_env_json()

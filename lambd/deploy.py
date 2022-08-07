@@ -43,8 +43,12 @@ def rebuild_code():
 
 # delete the zip file with name code.zip
 def delete_code():
-    os.remove(handler_zip)
-    os.remove(hanlder_binary_name)
+    try:
+        os.remove(handler_zip)
+        os.remove(hanlder_binary_name)
+    except Exception as e:
+        print(e)
+        pass
 
 
 # recieve path file and find if file exist

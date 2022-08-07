@@ -1,6 +1,4 @@
-import sys
 import boto3
-from credentials import get_mongo_user_and_password
 from read_files.local_environment import get_variables_from_local_environment as loc_env
 from read_files.global_environment import get_values_from_global_environment as glo_env
 
@@ -19,7 +17,6 @@ key_path_credential = 'path_credentials_mongo'
 lambda_function_name = loc_env('lambda-function-name')
 role_name = lambda_function_name +"_role"
 path_credentials = glo_env(key_path_credential)
-mongo_username, mongo_password = get_mongo_user_and_password()
 
 name_policy_logs = "put-logs"
 
