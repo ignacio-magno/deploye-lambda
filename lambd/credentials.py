@@ -7,8 +7,12 @@ from . import key_path_credential
 # read file credentials.json and get variables for key
 def get_mongo_var(key):
     try:
-        with open(glo_env[key_path_credential]) as f:
+        path = glo_env(key_path_credential)
+        # read file json from path
+        print(path)
+        with open(path) as f:
             data = json.load(f)
+            print(data)
             return data[key]
     except Exception as e:
         print(e)
@@ -17,6 +21,7 @@ def get_mongo_var(key):
 
 # funcion call mongo_var and return mongo_username and mongo_password
 def get_mongo_user_and_password():
+    print("getin mongo_username and other")
     # get mongo var with key MONGO_USERNAME and assign to variable mongo_username
     mongo_username = get_mongo_var('MONGO_USERNAME')
 

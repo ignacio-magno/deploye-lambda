@@ -12,6 +12,10 @@ this code need files, first, in the folder where is the code, need file environm
 ```json
 {
     "lambda-function-name": "string",
+    "environment_variables": [
+        "key": "value",
+        "key2": "value2",
+    ]
 }
 ```
 other file need is env.json, ubicated in the base folder, this file is the next

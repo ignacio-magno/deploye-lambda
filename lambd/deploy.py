@@ -2,6 +2,8 @@ import json
 import os
 import sys
 import boto3
+
+from lambd.environment_variables import get_environment_variables
 from . import lambda_client, handler_name, handler_zip, hanlder_binary_name, lambda_function_name, role_name, name_policy_logs
 
 # find if exist lambda function with name lambda_function_name
@@ -73,8 +75,28 @@ def start_lambda_deploy():
         if update == 'y':
             # rebuild code
             rebuild_code()
-            # update lambda function with new code from code.zip
-            lambda_client.update_function_code(FunctionName=lambda_function_name, ZipFile=open(handler_zip, 'rb').read())
+
+            #lambda update function
+
+            # update lambda function with name lambda_function_name, handler main, zip file main.zip, runtime golang1.x, memory 128MB, 
+            # timeout 30 seconds, with role role_name, and environment variables from environment.json
+            lambda_client.update_function_configuration(
+                FunctionName=lambda_function_name,
+                Handler=handler_name,
+                Runtime='go1.x',
+                MemorySize=128,
+                Timeout=30,
+                Environment=get_environment_variables()
+            )
+            # update lambda function code with zip file main.zip
+            lambda_client.update_function_code(
+                FunctionName=lambda_function_name,
+                ZipFile=open(handler_zip, 'rb').read()
+            )
+
+            delete_code()
+
+
 
         # consulte with y/N if want add policy to role
         add_policy = input('Do you want to add policy to role? (y/N) ')
@@ -159,8 +181,9 @@ def start_lambda_deploy():
 
             print('Deploying lambda function ' + lambda_function_name)
             # deploy lambda function with name lambda_function_name, handler main, zip file main.zip, runtime golang1.x, memory 128MB, 
-            # timeout 30 seconds, with role role_name
-            os.system('aws lambda create-function --function-name ' + lambda_function_name + ' --runtime go1.x --memory-size 128 --timeout 30 --role ' + role_arn + ' --handler main --zip-file fileb://'+ handler_zip)
+            # timeout 30 seconds, with role role_name, and environment variables from environment.json
+            lambda_client.create_function(FunctionName=lambda_function_name, Runtime='go1.x', MemorySize=128, Timeout=30, Handler=handler_name, 
+                Code={'ZipFile': open(handler_zip, 'rb').read()}, Role=role_arn, Environment={'Variables': get_environment_variables() })
 
 
     #elimina el archivo main.zip
