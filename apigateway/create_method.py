@@ -6,7 +6,7 @@ import sys
 def get_resource(id_path):
     print(id_path)
     response = client.get_resource(restApiId=api_id, resourceId=id_path)
-    return response
+    return response["ResponseMetadata"]
 
 def create_method(id_resource):
     # try obtain method from the resource with id, if no exist print method not exist, else, asign method to variable resource_method

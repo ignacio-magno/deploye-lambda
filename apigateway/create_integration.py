@@ -25,7 +25,9 @@ def create_integration(id_resource):
             integrationHttpMethod="POST", 
             uri = "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/"+arn_function+"/invocations",
         )
-        print(response)
+
+        # print endpoint with color blue
+        print("\033[94m" + "endpoint: " + "\033[0m" + "https://" + account_id + ".execute-api.us-west-2.amazonaws.com/" + api_id + "/" + path)
         print("\n")
     else:
         print("integration exist")
@@ -36,8 +38,8 @@ def create_integration(id_resource):
                 integrationHttpMethod="POST",
                 uri = "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/"+arn_function+"/invocations",
             )
-
-            print(response)
+            # print endpoint with color blue
+            print("\033[94m" + "endpoint: " + "\033[0m" + "https://" + account_id + ".execute-api.us-west-2.amazonaws.com/" + api_id + "/" + path)
             print("\n")
         else:
             print("integration not updated")
