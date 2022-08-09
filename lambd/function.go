@@ -3,6 +3,7 @@ package lambd
 import (
 	"context"
 	readfiles "deploye-lambda/read_files"
+	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -28,8 +29,10 @@ func newClientLambda() *lambda.Client {
 }
 
 func GetArnLambdaFunction() string {
+	fname := readfiles.GetNameFunctionLambda()
+	fmt.Printf("fname: %v\n", fname)
 	arn, err := client.GetFunctionConfiguration(context.Background(), &lambda.GetFunctionConfigurationInput{
-		FunctionName: aws.String(readfiles.GetNameFunctionLambda()),
+		FunctionName: aws.String(fname),
 	})
 	if err != nil {
 		panic(err)

@@ -16,14 +16,19 @@ type MethodToCreate struct {
 }
 
 // crete methodtocreate with values recivied from console
-func CreateMethod() *MethodToCreate {
+// if recieve method this is cors, this is for case of the method to create, not is the method default based in path
+func CreateMethod(method ...string) *MethodToCreate {
 	var m MethodToCreate
 
-	// print creating method readfiles.Method
-	fmt.Printf("Creating method: %v \n", readfiles.Method)
+	if len(method) == 1 && method[0] != "" {
+		m.HttpMethod = method[0]
+	} else {
+		// read value from console and assign to method
+		m.HttpMethod = readfiles.Method
+	}
 
-	// read value from console and assign to method
-	m.HttpMethod = readfiles.Method
+	// print creating method readfiles.Method
+	fmt.Printf("Creating method: %v \n", m.HttpMethod)
 
 	// print in blue set authorization type
 	fmt.Println("\nSet authorization type")
@@ -105,6 +110,7 @@ func (p *PathApi) deleteMethod(m *MethodToCreate) {
 	_, err := client.DeleteMethod(context.Background(), &apigateway.DeleteMethodInput{
 		HttpMethod: aws.String(m.HttpMethod),
 		ResourceId: aws.String(p.id),
+		RestApiId:  aws.String(readfiles.ApiId),
 	})
 
 	if err != nil {
@@ -130,3 +136,5 @@ func (p *PathApi) createMethod(m *MethodToCreate) {
 
 	fmt.Printf("Method %v created\n", m.HttpMethod)
 }
+
+// ========================================================= Create method cors =========================================================

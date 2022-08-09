@@ -3,6 +3,7 @@ package readfiles
 import (
 	"fmt"
 	"os"
+	"path"
 	"strings"
 	"time"
 )
@@ -15,6 +16,13 @@ var (
 	ApiId         = "m0gqzb21qk"
 	LEnv          *LocalEnvironment
 	Method        = ""
+
+	handlerMain = "main.go"
+	handlerZip  = "main.zip"
+
+	FolderRoles     = "roles"
+	TrustPoliciPath = path.Join(FolderRoles, "trust-policy.json")
+	PolicyLogsPath  = path.Join(FolderRoles, "policy-logs.json")
 )
 
 const (

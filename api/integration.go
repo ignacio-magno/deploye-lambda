@@ -44,6 +44,8 @@ func NewIntegrationRequest(m *MethodToCreate) *Integration {
 		i.Type = types.IntegrationTypeMock
 	case "5":
 		i.Type = types.IntegrationTypeHttpProxy
+	default:
+		i.Type = types.IntegrationTypeAwsProxy
 	}
 
 	i.RequestTemplates = map[string]string{
@@ -79,6 +81,11 @@ func (a *PathApi) CreateIntegrationRequest(i *Integration) error {
 
 func (a *PathApi) createIntegrationAwsProxy(i *Integration) error {
 
+	// print creating integration aws proxy
+	fmt.Println("\nCreating integration %v\n", i.Type)
+
+	uri := "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/" + lambd.GetArnLambdaFunction() + "/invocations"
+	fmt.Printf("uri: %v\n", uri)
 	// deploy integration type lambda proxy
 	_, err := client.PutIntegration(context.Background(), &apigateway.PutIntegrationInput{
 		HttpMethod:            aws.String(i.HttpMethod),
@@ -86,7 +93,7 @@ func (a *PathApi) createIntegrationAwsProxy(i *Integration) error {
 		Type:                  i.Type,
 		RestApiId:             aws.String(readfiles.ApiId),
 		IntegrationHttpMethod: aws.String("POST"),
-		Uri:                   aws.String("arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/" + lambd.GetArnLambdaFunction() + "/invocations"),
+		Uri:                   aws.String(uri),
 		TimeoutInMillis:       aws.Int32(3000),
 	})
 
@@ -94,6 +101,8 @@ func (a *PathApi) createIntegrationAwsProxy(i *Integration) error {
 		return err
 	}
 
+	// print integration created
+	fmt.Println("\nIntegration created")
 	return nil
 }
 

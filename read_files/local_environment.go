@@ -43,6 +43,16 @@ func newLocalEnvironment() *LocalEnvironment {
 	return &le
 }
 
+func GetEnvironmentVariables() map[string]string {
+	m := make(map[string]string)
+	for _, v := range LEnv.EnvironmentVariables {
+		m[v.Name] = os.Getenv(v.Name)
+	}
+
+	// credentials
+	return m
+}
+
 func GetNameFunctionLambda() string {
 	return LEnv.LambdaFunctionName
 }

@@ -74,7 +74,7 @@ func getApiGateway(path string) string {
 
 	// range pathSplited
 	acumPath := ""
-	id := ""
+	id, _ := existPath("/")
 	for _, val := range pathSplited {
 		acumPath += "/" + val
 		if rid, ok := existPath(acumPath); ok {
