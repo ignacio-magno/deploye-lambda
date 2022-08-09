@@ -51,6 +51,7 @@ func CreateMethod(method ...string) *MethodToCreate {
 	default:
 		m.AuthorizationType = "NONE"
 	}
+
 	return &m
 }
 
@@ -128,6 +129,7 @@ func (p *PathApi) createMethod(m *MethodToCreate) {
 		HttpMethod:        aws.String(m.HttpMethod),
 		ResourceId:        aws.String(p.id),
 		RestApiId:         aws.String(readfiles.ApiId),
+		AuthorizerId:      aws.String(m.GetIdAuthorization()),
 	})
 
 	if err != nil {

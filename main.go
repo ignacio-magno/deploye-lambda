@@ -31,31 +31,39 @@ func main() {
 
 		switch options {
 		case "1":
-			method := apir.CreateMethod()
-			path := apir.NewPathApi()
+			fmt.Println("select option ")
+			fmt.Println("1) Create API Gateway")
+			fmt.Println("2) Change Authorization Type")
+			var option string
+			fmt.Scanln(&option)
+			switch option {
+			case "1":
+				method := apir.CreateMethod()
+				path := apir.NewPathApi()
 
-			// create all paths need and obtain the id
-			path.SetId()
+				// print deployming method in blue
+				fmt.Printf("\033[1;34m%s\033[0m\n", "Deploying method")
+				path.DeployMethod(method)
 
-			// print deployming method in blue
-			fmt.Printf("\033[1;34m%s\033[0m\n", "Deploying method")
-			path.DeployMethod(method)
+				// print deployming integration in blue
+				fmt.Printf("\033[1;34m%s\033[0m\n", "Deploying integration")
+				integration := apir.NewIntegrationRequest(method)
+				err := path.CreateIntegrationRequest(integration)
+				if err != nil {
+					panic(err)
+				}
 
-			// print deployming integration in blue
-			fmt.Printf("\033[1;34m%s\033[0m\n", "Deploying integration")
-			integration := apir.NewIntegrationRequest(method)
-			err := path.CreateIntegrationRequest(integration)
-			if err != nil {
-				panic(err)
+				path.PutPoliciToLambdaFunction()
+			case "2":
+				method := apir.CreateMethod()
+				path := apir.NewPathApi()
+
+				path.SetAuthorization(method)
 			}
 
-			path.PutPoliciToLambdaFunction()
 		case "2":
 			method := apir.CreateMethod("OPTIONS")
 			path := apir.NewPathApi()
-
-			// create all paths need and obtain the id
-			path.SetId()
 
 			// print deployming method in blue
 			fmt.Printf("\033[1;34m%s\033[0m\n", "Deploying method")
@@ -69,10 +77,21 @@ func main() {
 				panic(err)
 			}
 		case "3":
-			lambd.DeployLambdaFunction()
+			// coonsulte if 1 need deploy function 2 add environment variables
+			fmt.Println("1 Deploy function")
+			fmt.Println("2 Add environment variables")
+			var option string
+			fmt.Scanln(&option)
+			switch option {
+			case "1":
+				lambd.DeployLambdaFunction()
+			case "2":
+				lambd.AddEnvironmentVariables()
+			}
 
 		case "4":
 			apir.Deploy()
+
 		default:
 			// print god job
 			fmt.Println("\033[1;32m%s\033[0m\n", "God job")

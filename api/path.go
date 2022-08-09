@@ -7,6 +7,8 @@ import (
 	"os"
 	"strings"
 
+	pathJoin "path"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/apigateway"
 	"github.com/aws/aws-sdk-go-v2/service/apigateway/types"
@@ -29,14 +31,19 @@ func NewPathApi() *PathApi {
 	pathSplit := strings.Join(strings.Split(path, "/")[len(strings.Split(path, "/"))-count:len(strings.Split(path, "/"))-1], "/")
 	fmt.Printf("pathSplit: %v\n", pathSplit)
 
-	return &PathApi{
-		completePath: "contabilidad/" + pathSplit,
+	rpath := pathJoin.Join(readfiles.GetPathBase(), pathSplit)
+	fmt.Printf("rpath: %v\n", rpath)
+
+	obj := &PathApi{
+		completePath: rpath,
 	}
+	obj.setId()
+	return obj
 }
 
 // get id from pathapi, if not exist then consulte to create resources.
 // if no create resoources, then end program to deploy api, but is need this for deploy method and other thins
-func (p *PathApi) SetId() {
+func (p *PathApi) setId() {
 	if p.id == "" {
 		p.id = getApiGateway(p.completePath)
 		return
@@ -59,12 +66,18 @@ func getApiGateway(path string) string {
 
 	existPath := func(subPath string) (string, bool) {
 		for _, r := range res.Items {
-			if ok, count := subStringFromInit(subPath, *r.Path); ok {
-				switch count {
-				case 0:
+			if subPath == "/" {
+				if *r.Path == "/" {
 					return *r.Id, true
-				case 1:
-					return *r.ParentId, true
+				}
+			} else {
+				if ok, count := subStringFromInit(subPath, *r.Path); ok {
+					switch count {
+					case 0:
+						return *r.Id, true
+					case 1:
+						return *r.ParentId, true
+					}
 				}
 			}
 		}

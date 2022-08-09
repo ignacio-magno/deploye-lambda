@@ -15,6 +15,7 @@ var (
 	pathGlobalEnv = ""
 	ApiId         = "m0gqzb21qk"
 	LEnv          *LocalEnvironment
+	GEnv          *GlobalEnvironment
 	Method        = ""
 
 	handlerMain = "main.go"
@@ -45,7 +46,7 @@ func init() {
 	fmt.Printf("Method: %v\n", Method)
 
 	LEnv = newLocalEnvironment()
-
+	GEnv = newGlobalEnvironment()
 }
 
 func PrintPath() {

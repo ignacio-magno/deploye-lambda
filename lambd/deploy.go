@@ -68,7 +68,6 @@ func deployFunctionLambda(arnRole string) {
 	if err != nil {
 		panic(err)
 	}
-
 }
 
 func deleteFunctionLambda() {
@@ -96,4 +95,18 @@ func existFunction() bool {
 
 	return true
 
+}
+
+func AddEnvironmentVariables() {
+	fmt.Printf("readfiles.GetEnvironmentVariables(): %v\n", readfiles.GetEnvironmentVariables())
+	_, err := client.UpdateFunctionConfiguration(context.Background(), &lambda.UpdateFunctionConfigurationInput{
+		FunctionName: aws.String(readfiles.GetNameFunctionLambda()),
+		Environment: &types.Environment{
+			Variables: readfiles.GetEnvironmentVariables(),
+		},
+	})
+
+	if err != nil {
+		panic(err)
+	}
 }

@@ -2,15 +2,14 @@ package readfiles
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 )
 
 type LocalEnvironment struct {
-	LambdaFunctionName   string `json:"lambda_function_name"`
-	EnvironmentVariables []struct {
-		Name string `json:"name"`
-	} `json:"environment_variables"`
+	LambdaFunctionName   string            `json:"lambda_function_name"`
+	EnvironmentVariables map[string]string `json:"environment_variables"`
 }
 
 func newLocalEnvironment() *LocalEnvironment {
@@ -44,13 +43,24 @@ func newLocalEnvironment() *LocalEnvironment {
 }
 
 func GetEnvironmentVariables() map[string]string {
-	m := make(map[string]string)
-	for _, v := range LEnv.EnvironmentVariables {
-		m[v.Name] = os.Getenv(v.Name)
+	toReturn := make(map[string]string)
+	// credentials
+	// consulte if want to use the environment variables privates
+	fmt.Println("you wish use the privates environment variables y/N")
+	var answer string
+	fmt.Scanln(&answer)
+	if answer == "y" {
+		m := GEnv.getHiddenEnvironment()
+		for k, v := range m {
+			toReturn[k] = v
+		}
 	}
 
-	// credentials
-	return m
+	for k, v := range LEnv.EnvironmentVariables {
+		toReturn[k] = v
+	}
+
+	return toReturn
 }
 
 func GetNameFunctionLambda() string {
