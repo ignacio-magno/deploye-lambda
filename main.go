@@ -23,6 +23,7 @@ func main() {
 		fmt.Println("1. Create API Gateway")
 		fmt.Println("2. Create Cors Method")
 		fmt.Println("3. Create lambda function")
+		fmt.Println("4. deploy api")
 		fmt.Println("* exit")
 
 		var options string
@@ -47,6 +48,8 @@ func main() {
 			if err != nil {
 				panic(err)
 			}
+
+			path.PutPoliciToLambdaFunction()
 		case "2":
 			method := apir.CreateMethod("OPTIONS")
 			path := apir.NewPathApi()
@@ -67,6 +70,9 @@ func main() {
 			}
 		case "3":
 			lambd.DeployLambdaFunction()
+
+		case "4":
+			apir.Deploy()
 		default:
 			// print god job
 			fmt.Println("\033[1;32m%s\033[0m\n", "God job")

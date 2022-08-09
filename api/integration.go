@@ -83,6 +83,7 @@ func (a *PathApi) createIntegrationAwsProxy(i *Integration) error {
 
 	// print creating integration aws proxy
 	fmt.Println("\nCreating integration %v\n", i.Type)
+	fmt.Printf("i.HttpMethod: %v\n", i.HttpMethod)
 
 	uri := "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/" + lambd.GetArnLambdaFunction() + "/invocations"
 	fmt.Printf("uri: %v\n", uri)

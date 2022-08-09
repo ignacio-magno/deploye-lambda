@@ -30,7 +30,7 @@ func NewPathApi() *PathApi {
 	fmt.Printf("pathSplit: %v\n", pathSplit)
 
 	return &PathApi{
-		completePath: pathSplit,
+		completePath: "contabilidad/" + pathSplit,
 	}
 }
 
@@ -38,7 +38,7 @@ func NewPathApi() *PathApi {
 // if no create resoources, then end program to deploy api, but is need this for deploy method and other thins
 func (p *PathApi) SetId() {
 	if p.id == "" {
-		p.id = getApiGateway("contabilidad/" + p.completePath)
+		p.id = getApiGateway(p.completePath)
 		return
 	}
 	return
