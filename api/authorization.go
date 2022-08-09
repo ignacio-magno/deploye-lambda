@@ -20,7 +20,7 @@ func (a *MethodToCreate) GetIdAuthorization() string {
 		panic(err)
 	}
 
-	if a.AuthorizationType == "AWS_IAM" {
+	if a.AuthorizationType == "COGNITO_USER_POOLS" {
 		fmt.Println("Select authorization type")
 		for i, a2 := range resp.Items {
 			fmt.Printf("%v) %v\n", i, *a2.Name)
@@ -43,6 +43,8 @@ func (a *MethodToCreate) GetIdAuthorization() string {
 }
 
 func (p *PathApi) SetAuthorization(m *MethodToCreate) {
+	id := m.GetIdAuthorization()
+	fmt.Printf("id: %v\n", id)
 	resp, err := client.UpdateMethod(context.Background(), &apigateway.UpdateMethodInput{
 		HttpMethod: aws.String(readfiles.Method),
 		ResourceId: aws.String(p.id),
@@ -58,7 +60,7 @@ func (p *PathApi) SetAuthorization(m *MethodToCreate) {
 				Op:    types.OpReplace,
 				From:  aws.String("UpdateMethod"),
 				Path:  aws.String("/authorizerId"),
-				Value: aws.String(m.GetIdAuthorization()),
+				Value: aws.String(id),
 			},
 		},
 	})

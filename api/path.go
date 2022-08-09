@@ -15,8 +15,9 @@ import (
 )
 
 type PathApi struct {
-	completePath string
-	id           string
+	completePath       string
+	id                 string
+	responsePatameters map[string]string
 }
 
 // constructo pathapi
@@ -38,6 +39,8 @@ func NewPathApi() *PathApi {
 		completePath: rpath,
 	}
 	obj.setId()
+
+	obj.responsePatameters = make(map[string]string)
 	return obj
 }
 

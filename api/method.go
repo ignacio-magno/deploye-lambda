@@ -34,7 +34,7 @@ func CreateMethod(method ...string) *MethodToCreate {
 	fmt.Println("\nSet authorization type")
 	fmt.Println("(1) NONE")
 	fmt.Println("2) AWS_IAM")
-	fmt.Println("3) CUSTOM")
+	fmt.Println("3) COGNITO_USER_POOLS")
 	fmt.Println("4) JWT")
 
 	// read value from console and assign to method
@@ -45,7 +45,7 @@ func CreateMethod(method ...string) *MethodToCreate {
 	case "2":
 		m.AuthorizationType = "AWS_IAM"
 	case "3":
-		m.AuthorizationType = "CUSTOM"
+		m.AuthorizationType = "COGNITO_USER_POOLS"
 	case "4":
 		m.AuthorizationType = "JWT"
 	default:

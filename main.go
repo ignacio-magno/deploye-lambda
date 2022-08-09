@@ -73,6 +73,8 @@ func main() {
 			fmt.Printf("\033[1;34m%s\033[0m\n", "Deploying integration")
 			integration := apir.NewIntegrationRequest(method)
 			err := path.CreateIntegrationRequest(integration)
+
+			path.UpdateIntegrationOptions(integration)
 			if err != nil {
 				panic(err)
 			}
