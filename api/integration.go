@@ -95,7 +95,7 @@ func (a *PathApi) createIntegrationAwsProxy(i *Integration) error {
 		RestApiId:             aws.String(readfiles.ApiId),
 		IntegrationHttpMethod: aws.String("POST"),
 		Uri:                   aws.String(uri),
-		TimeoutInMillis:       aws.Int32(30000),
+		TimeoutInMillis:       aws.Int32(29000),
 	})
 
 	if err != nil {
