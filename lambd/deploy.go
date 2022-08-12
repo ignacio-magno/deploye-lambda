@@ -64,6 +64,7 @@ func deployFunctionLambda(arnRole string) {
 		Environment: &types.Environment{
 			Variables: readfiles.GetEnvironmentVariables(),
 		},
+		Timeout: aws.Int32(30000),
 	})
 	if err != nil {
 		panic(err)
