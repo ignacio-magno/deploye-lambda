@@ -24,6 +24,7 @@ func main() {
 		fmt.Println("2. Create Cors Method")
 		fmt.Println("3. Create lambda function")
 		fmt.Println("4. deploy api")
+		fmt.Println("5. update function")
 		fmt.Println("* exit")
 
 		var options string
@@ -93,6 +94,12 @@ func main() {
 
 		case "4":
 			apir.Deploy()
+
+		case "5":
+			err := lambd.UpdateFunctionLambdaCode()
+			if err != nil {
+				fmt.Printf("err.Error(): %v\n", err.Error())
+			}
 
 		default:
 			// print god job
