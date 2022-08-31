@@ -44,11 +44,11 @@ func (a *PathApi) UpdateIntegrationOptions(i *Integration) error {
 	}
 
 	// consulte allow methods
-	fmt.Println("set allow methods (y/N) \n 'OPTIONS,GET,PUT,POST,DELETE'")
+	fmt.Println("set allow methods (y/N) \n 'OPTIONS,GET,PUT,POST,DELETE,PATCH'")
 	fmt.Scanln(&answer)
 
 	if answer == "y" {
-		a.responsePatameters["method.response.header.Access-Control-Allow-Methods"] = "'OPTIONS,GET,PUT,POST,DELETE'"
+		a.responsePatameters["method.response.header.Access-Control-Allow-Methods"] = "'OPTIONS,GET,PUT,POST,DELETE,PATCH'"
 	}
 
 	// consulte allow origin
